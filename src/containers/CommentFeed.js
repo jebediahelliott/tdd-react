@@ -3,6 +3,23 @@ import Comment from '../components/Comment'
 
 export default class CommentFeed extends Component {
 
+  state = {
+    author: '',
+    text: ''
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    })
+  }
+
+  handleSubmit = event => {
+    event.preventDefault()
+    const { author, text } = this.state
+    this.props.createComment({ author, text })
+  }
+
   renderComments = () => {
     return this.props.comments.map((comment, i) => (
       <Comment key={i} {...comment} />
