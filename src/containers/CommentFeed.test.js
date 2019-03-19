@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { render } from 'react-testing-library'
+import { render, Simulate } from 'react-testing-library'
 import CommentFeed from './CommentFeed'
 
 const createProps = props => ({
@@ -38,5 +38,25 @@ describe('CommentFeed', () => {
     const {container} = render(<CommentFeed {...props} />)
     const commentNodes = container.querySelectorAll('.Comment')
     expect(commentNodes.length).toBe(props.comments.length)
+  })
+
+  it('allows a user to add a comment', () => {
+    const newComment = {author: 'Socrates', text: 'Why?'}
+    let props = createProps()
+    const {container, getByLabelText} = render(<CommentFeed {...props} />)
+
+    const authorNode = getByLabelText('Author')
+    const textNode = getByLabelText('Comment')
+    const formNode = container.querySelector('form')
+
+    authorNode.value = newComment.author
+    textNode.value = newComment.text
+
+    Simulate.change(authorNode)
+    Simulate.change(textNode)
+    Simulate.submit(formNode)
+
+    expect(props.createComment).toHaveBeenCalledTimes(1)
+    expect(props.createComment).toHaveBeenCalledWith(newComment)
   })
 })
