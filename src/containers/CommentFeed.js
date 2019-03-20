@@ -31,16 +31,16 @@ export default class CommentFeed extends Component {
     return (
       <div>
         <h2>{header}</h2>
-        <form className="comment-form" onSubmit={this.handleSubmit}>
+        <form className="comment-form" data-testid="form" onSubmit={this.handleSubmit}>
           <label htmlFor="author">
             Author
-            <input id="author" type="text" onChange={this.handleChange} />
           </label>
+          <input id="author" value={this.state.author} type="text" onChange={this.handleChange} />
           <label htmlFor="text">
             Comment
-            <input id="text" type="text" onChange={this.handleChange} />
           </label>
-          <button type="submit">Submit Comment</button>
+          <input id="text" value={this.state.text} type="text" onChange={this.handleChange} />
+          <input type="submit" value="Submit Comment" />
         </form>
         <div className="comment-list">
           {this.renderComments()}

@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { render, Simulate } from 'react-testing-library'
+import React from 'react';
+import { render, fireEvent, prettyDOM } from 'react-testing-library'
 import CommentFeed from './CommentFeed'
 
 const createProps = props => ({
-header: 'Comment Feed',
-comments: [
-  {
-    author: 'Ian Wilson',
-    text: 'A boats a boat but a mystery box could be anything.',
-  },
-  {
-    author: 'Max Powers Jr',
-    text: 'Krypton sucks.',
-  },
-],
-createComment: jest.fn(),
-...props,
+  header: 'Comment Feed',
+  comments: [
+    {
+      author: 'Ian Wilson',
+      text: 'A boats a boat but a mystery box could be anything.',
+    },
+    {
+      author: 'Max Powers Jr',
+      text: 'Krypton sucks.',
+    },
+  ],
+  createComment: jest.fn(),
+  ...props
 })
 
 describe('CommentFeed', () => {
@@ -43,18 +43,20 @@ describe('CommentFeed', () => {
   it('allows a user to add a comment', () => {
     const newComment = {author: 'Socrates', text: 'Why?'}
     let props = createProps()
-    const {container, getByLabelText} = render(<CommentFeed {...props} />)
+    const { container, getByTestId, getByLabelText, getByText } = render(<CommentFeed {...props} />)
 
     const authorNode = getByLabelText('Author')
     const textNode = getByLabelText('Comment')
     const formNode = container.querySelector('form')
+    console.log(prettyDOM(formNode.children[1]));
+    console.log(prettyDOM(formNode.children[3]));
 
-    authorNode.value = newComment.author
-    textNode.value = newComment.text
+    fireEvent.change(formNode.children[1], { target: {value: newComment.author} })
+    fireEvent.change(formNode.children[3], { target: {value: newComment.text} })
+    console.log(prettyDOM(formNode.children[1]));
+    console.log(prettyDOM(formNode.children[3]));
+    fireEvent.submit(formNode)
 
-    Simulate.change(authorNode)
-    Simulate.change(textNode)
-    Simulate.submit(formNode)
 
     expect(props.createComment).toHaveBeenCalledTimes(1)
     expect(props.createComment).toHaveBeenCalledWith(newComment)

@@ -5,8 +5,7 @@
   "dependencies": {
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8",
-    "react-testing-library": "^6.0.0"
+    "react-scripts": "2.1.8"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -22,5 +21,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "react-testing-library": "^6.0.1"
+  }
 }
