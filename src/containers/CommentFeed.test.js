@@ -48,13 +48,11 @@ describe('CommentFeed', () => {
     const authorNode = getByLabelText('Author')
     const textNode = getByLabelText('Comment')
     const formNode = container.querySelector('form')
-    console.log(prettyDOM(formNode.children[1]));
-    console.log(prettyDOM(formNode.children[3]));
+
 
     fireEvent.change(formNode.children[1], { target: {value: newComment.author} })
     fireEvent.change(formNode.children[3], { target: {value: newComment.text} })
-    console.log(prettyDOM(formNode.children[1]));
-    console.log(prettyDOM(formNode.children[3]));
+
     fireEvent.submit(formNode)
 
 
