@@ -14,6 +14,10 @@ export default class CommentFeed extends Component {
     })
   }
 
+  handleLike = (id, author) => {
+    this.props.likeComment(id, author)
+  }
+
   handleSubmit = event => {
     event.preventDefault()
     const { author, text } = this.state
@@ -22,7 +26,7 @@ export default class CommentFeed extends Component {
 
   renderComments = () => {
     return this.props.comments.map((comment, i) => (
-      <Comment key={i} {...comment} />
+      <Comment key={i} {...comment} onLike={this.handleLike} />
     ))
   }
 

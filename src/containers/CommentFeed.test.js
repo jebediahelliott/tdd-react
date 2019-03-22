@@ -4,17 +4,23 @@ import CommentFeed from './CommentFeed'
 
 const createProps = props => ({
   header: 'Comment Feed',
+  auth: {
+    name: 'Ian Wilson'
+  },
   comments: [
     {
+      id: 'comment-0',
       author: 'Ian Wilson',
       text: 'A boats a boat but a mystery box could be anything.',
     },
     {
+      id: 'comment-1',
       author: 'Max Powers Jr',
       text: 'Krypton sucks.',
     },
   ],
   createComment: jest.fn(),
+  likeComment: jest.fn(),
   ...props
 })
 
@@ -45,8 +51,8 @@ describe('CommentFeed', () => {
     let props = createProps()
     const { container, getByTestId, getByLabelText, getByText } = render(<CommentFeed {...props} />)
 
-    const authorNode = getByLabelText('Author')
-    const textNode = getByLabelText('Comment')
+    // const authorNode = getByLabelText('Author')
+    // const textNode = getByLabelText('Comment')
     const formNode = container.querySelector('form')
 
 
@@ -58,5 +64,19 @@ describe('CommentFeed', () => {
 
     expect(props.createComment).toHaveBeenCalledTimes(1)
     expect(props.createComment).toHaveBeenCalledWith(newComment)
+  })
+
+  it('allows a user to like a comment', () => {
+    let props = createProps();
+    let id = props.comments[1].id
+    let { container } = render(<CommentFeed {...props} />)
+
+    let likeNode = container.querySelector(`#${id}`)
+    console.log(prettyDOM(likeNode));
+    fireEvent.click(likeNode)
+
+    expect(props.likeComment).toHaveBeenCalledTimes(1)
+    expect(props.likeComment).toHaveBeenCalledWith(id, props.comments[1].author)
+
   })
 })
